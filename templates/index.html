@@ -3,107 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prensa Técnico-Estudiantil</title>
-    <!-- Bootstrap 5 CSS e Íconos -->
+    <title>Prensa T�cnico-Estudiantil</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
     <style>
-        :root {
-            --primary-blue: #004488;
-            --accent-red: #e02020;
-        }
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        .header-banner {
-            background: linear-gradient(135deg, #002b55 0%, var(--primary-blue) 100%);
-            color: white;
-            padding: 2.5rem 1rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        .nav-pills .nav-link.active {
-            background-color: var(--primary-blue);
-        }
-        .nav-pills .nav-link {
-            color: #495057;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-        .nav-pills .nav-link:hover {
-            background-color: #e9ecef;
-        }
-        .card-noticia {
-            border: none;
-            border-radius: 12px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .card-noticia:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1) !important;
-        }
-        .badge-categoria {
-            background-color: var(--accent-red);
-            font-size: 0.75rem;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-        .img-noticia {
-            height: 220px;
-            object-fit: cover;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-        }
+        :root { --primary-blue: #004488; --accent-red: #e02020; }
+        body { background-color: #f8f9fa; font-family: sans-serif; }
+        .header-banner { background: linear-gradient(135deg, #002b55 0%, var(--primary-blue) 100%); color: white; padding: 2.5rem 1rem; }
+        .nav-pills .nav-link.active { background-color: var(--primary-blue); }
+        .badge-categoria { background-color: var(--accent-red); font-size: 0.75rem; text-transform: uppercase; }
+        .img-noticia { height: 220px; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px; }
     </style>
 </head>
 <body>
-
-    <!-- Encabezado Principal -->
     <header class="header-banner text-center mb-4">
         <div class="container">
-            <h1 class="fw-bold display-5 mb-1"><i class="bi bi-journal-richtext me-2"></i>Prensa Técnico-Estudiantil</h1>
-            <p class="lead mb-0 text-white-50">Portal Digital Oficial del Área Taller</p>
+            <h1 class="fw-bold display-5 mb-1"><i class="bi bi-journal-richtext me-2"></i>Prensa T�cnico-Estudiantil</h1>
+            <p class="lead mb-0 text-white-50">Portal Digital Oficial del �rea Taller</p>
         </div>
     </header>
 
     <div class="container mb-5">
-        
-        <!-- Barra de Navegación Interactiva por Secciones -->
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
             <ul class="nav nav-pills bg-white p-2 rounded-3 shadow-sm" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="tab-noticias" data-bs-toggle="pill" data-bs-target="#content-noticias" type="button"><i class="bi bi-newspaper me-1"></i> Últimas Noticias</button>
+                <li class="nav-item">
+                    <button class="nav-link active" id="tab-noticias" data-bs-toggle="pill" data-bs-target="#content-noticias" type="button"><i class="bi bi-newspaper me-1"></i> �ltimas Noticias</button>
                 </li>
-                <li class="nav-item" role="presentation">
+                <li class="nav-item">
                     <button class="nav-link" id="tab-novedades" data-bs-toggle="pill" data-bs-target="#content-novedades" type="button"><i class="bi bi-bell me-1"></i> Novedades</button>
                 </li>
-                <li class="nav-item" role="presentation">
+                <li class="nav-item">
                     <button class="nav-link" id="tab-historial" data-bs-toggle="pill" data-bs-target="#content-historial" type="button"><i class="bi bi-clock-history me-1"></i> Historial / Archivo</button>
                 </li>
             </ul>
-
-            <a href="/admin" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-semibold">
-                <i class="bi bi-plus-circle me-1"></i> Cargar Nota
-            </a>
+            <a href="/admin" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-semibold"><i class="bi bi-plus-circle me-1"></i> Cargar Nota</a>
         </div>
 
-        <!-- Contenido de las Pestañas -->
         <div class="tab-content" id="pills-tabContent">
-            
-            <!-- Pestaña 1: Últimas Noticias -->
-            <div class="tab-pane fade show active" id="content-noticias" role="tabpanel">
+            <div class="tab-pane fade show active" id="content-noticias">
                 <div class="row g-4">
                     {% for noticia in noticias %}
                         <div class="col-md-6 col-lg-4">
-                            <div class="card card-noticia h-100 shadow-sm">
+                            <div class="card h-100 shadow-sm border-0 rounded-3">
                                 {% if noticia.imagen %}
-                                    <img src="{{ url_for('static', filename='uploads/' + noticia.imagen) }}" class="card-img-top img-noticia" alt="Imagen noticia">
+                                    <img src="{{ url_for("static", filename="uploads/" + noticia.imagen) }}" class="card-img-top img-noticia">
                                 {% endif %}
                                 <div class="card-body d-flex flex-column">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <span class="badge badge-categoria px-2 py-1">{{ noticia.categoria }}</span>
-                                        <small class="text-muted"><i class="bi bi-calendar3 me-1"></i>{{ noticia.fecha }}</small>
+                                        <small class="text-muted">{{ noticia.fecha }}</small>
                                     </div>
                                     <h5 class="card-title fw-bold text-dark mb-3">{{ noticia.titulo }}</h5>
                                     <p class="card-text text-secondary flex-grow-1">{{ noticia.contenido }}</p>
@@ -114,56 +62,29 @@
                 </div>
             </div>
 
-            <!-- Pestaña 2: Novedades e Informes -->
-            <div class="tab-pane fade" id="content-novedades" role="tabpanel">
-                <div class="card border-0 shadow-sm rounded-3 p-4">
+            <div class="tab-pane fade" id="content-novedades">
+                <div class="card border-0 shadow-sm p-4">
                     <h4 class="text-primary fw-bold mb-3"><i class="bi bi-megaphone me-2"></i>Novedades del Taller</h4>
-                    <p class="text-muted">Avisos rápidos, llamados a reuniones y avances de proyectos en marcha.</p>
-                    <hr>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>Preparativos Desafío ECO 2026</strong>
-                                <p class="mb-0 text-muted small">Ajustes finales en telemetría y estructura del chasis.</p>
-                            </div>
-                            <span class="badge bg-success rounded-pill">En Proceso</span>
-                        </li>
-                    </ul>
+                    <p class="text-muted">Avisos r�pidos y avances de proyectos en marcha.</p>
                 </div>
             </div>
 
-            <!-- Pestaña 3: Historial y Archivo -->
-            <div class="tab-pane fade" id="content-historial" role="tabpanel">
-                <div class="card border-0 shadow-sm rounded-3 p-4">
+            <div class="tab-pane fade" id="content-historial">
+                <div class="card border-0 shadow-sm p-4">
                     <h4 class="text-primary fw-bold mb-3"><i class="bi bi-archive me-2"></i>Historial de Publicaciones</h4>
-                    <p class="text-muted">Registro histórico de las actividades y proyectos del taller.</p>
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th>Categoría</th>
-                                    <th>Título</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for noticia in noticias %}
-                                <tr>
-                                    <td>{{ noticia.fecha }}</td>
-                                    <td><span class="badge bg-secondary">{{ noticia.categoria }}</span></td>
-                                    <td><strong>{{ noticia.titulo }}</strong></td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                    <table class="table table-hover">
+                        <thead><tr><th>Fecha</th><th>Categor�a</th><th>T�tulo</th></tr></thead>
+                        <tbody>
+                            {% for noticia in noticias %}
+                            <tr><td>{{ noticia.fecha }}</td><td>{{ noticia.categoria }}</td><td>{{ noticia.titulo }}</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- Script de Bootstrap 5 para que funcionen las pestañas interactivas -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -15,16 +15,8 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 def archivo_permitido(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# Lista inicial de noticias
-noticias = [
-    {
-        'categoria': 'DESAFÍO ECO / EVENTOS',
-        'titulo': 'Bienvenidos al Medio Digital del Taller',
-        'contenido': 'Este es el portal propio desarrollado en Python para cubrir las actividades, carreras y proyectos del taller.',
-        'fecha': '29/07/2026',
-        'imagen': None
-    }
-]
+# Lista de noticias vacía para que no aparezca NADA por defecto
+noticias = []
 
 @app.route('/')
 def inicio():

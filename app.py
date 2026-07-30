@@ -15,7 +15,7 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 def archivo_permitido(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# Lista de noticias vacía para que no aparezca NADA por defecto
+# Lista inicial vacía
 noticias = []
 
 @app.route('/')
@@ -26,6 +26,13 @@ def inicio():
 @app.route('/admin')
 def admin():
     return render_template('admin.html', noticias=noticias)
+
+# RUTA PARA BORRAR TODAS LAS NOTICIAS Y REINICIAR LA LISTA
+@app.route('/borrar_todo')
+def borrar_todo():
+    global noticias
+    noticias = []
+    return redirect(url_for('inicio'))
 
 @app.route('/publicar', methods=['POST'])
 def publicar():

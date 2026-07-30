@@ -20,6 +20,28 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
         }
 
+        /* ANIMACIÓN DE ENTRADA Y BRILLO DEL LOGO */
+        @keyframes animarLogo {
+            0% {
+                opacity: 0;
+                transform: translateY(-25px) scale(0.8);
+                filter: drop-shadow(0px 0px 0px rgba(0,0,0,0));
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(0) scale(1.1);
+                filter: drop-shadow(0px 0px 15px rgba(255, 255, 255, 0.9)); /* Destello luminoso */
+            }
+            80% {
+                transform: scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+                filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.4));
+            }
+        }
+
         /* BANNER Y LOGO INSTITUCIONAL */
         .header-banner { 
             background: linear-gradient(135deg, #002b55 0%, var(--primary-blue) 100%); 
@@ -30,12 +52,15 @@
         .logo-escuela {
             max-height: 80px;
             width: auto;
-            filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.4));
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            
+            /* Aplicamos la animación al cargar la página */
+            animation: animarLogo 1.6s ease-out forwards;
         }
 
         .logo-escuela:hover {
-            transform: scale(1.08) rotate(-2deg); /* Se agranda e inclina suavemente */
+            transform: scale(1.1) rotate(-3deg); /* Se agranda e inclina al pasar el mouse */
+            filter: drop-shadow(0px 5px 12px rgba(255, 255, 255, 0.5));
         }
 
         /* EFECTOS DINÁMICOS EN BOTONES Y PESTAÑAS */
@@ -46,7 +71,7 @@
 
         .nav-pills .nav-link:hover:not(.active) {
             background-color: #e9ecef;
-            transform: translateY(-2px); /* Se eleva al pasar el cursor */
+            transform: translateY(-2px);
         }
 
         .nav-pills .nav-link.active { 
@@ -59,7 +84,7 @@
         }
 
         .btn-cargar:hover {
-            transform: scale(1.05); /* Se agranda al pasar el cursor */
+            transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(0, 68, 136, 0.25) !important;
         }
 
@@ -70,7 +95,7 @@
         }
 
         .card-noticia:hover {
-            transform: translateY(-8px) scale(1.01); /* La tarjeta se eleva y agranda */
+            transform: translateY(-8px) scale(1.01);
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15) !important;
         }
 
@@ -93,7 +118,6 @@
             transition: transform 0.5s ease;
         }
 
-        /* Zoom a la foto al pasar el cursor por la tarjeta */
         .card-noticia:hover .img-noticia {
             transform: scale(1.06);
         }

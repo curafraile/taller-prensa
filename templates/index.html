@@ -4,26 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prensa Técnico-Estudiantil</title>
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Iconos de Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
     <style>
-        :root { --primary-blue: #004488; --accent-red: #e02020; }
-        body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .header-banner { background: linear-gradient(135deg, #002b55 0%, var(--primary-blue) 100%); color: white; padding: 2.5rem 1rem; }
-        .nav-pills .nav-link.active { background-color: var(--primary-blue); }
-        .badge-categoria { background-color: var(--accent-red); font-size: 0.75rem; text-transform: uppercase; }
-        .img-noticia { height: 220px; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px; }
+        :root { 
+            --primary-blue: #004488; 
+            --accent-red: #e02020; 
+        }
+        
+        body { 
+            background-color: #f8f9fa; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        }
+
+        /* BANNER Y LOGO INSTITUCIONAL */
+        .header-banner { 
+            background: linear-gradient(135deg, #002b55 0%, var(--primary-blue) 100%); 
+            color: white; 
+            padding: 2.5rem 1rem; 
+        }
+
+        .logo-escuela {
+            max-height: 80px;
+            width: auto;
+            filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.4));
+            transition: transform 0.3s ease;
+        }
+
+        .logo-escuela:hover {
+            transform: scale(1.08) rotate(-2deg); /* Se agranda e inclina suavemente */
+        }
+
+        /* EFECTOS DINÁMICOS EN BOTONES Y PESTAÑAS */
+        .nav-pills .nav-link {
+            color: var(--primary-blue);
+            transition: all 0.25s ease;
+        }
+
+        .nav-pills .nav-link:hover:not(.active) {
+            background-color: #e9ecef;
+            transform: translateY(-2px); /* Se eleva al pasar el cursor */
+        }
+
+        .nav-pills .nav-link.active { 
+            background-color: var(--primary-blue); 
+            box-shadow: 0 4px 10px rgba(0, 68, 136, 0.3);
+        }
+
+        .btn-cargar {
+            transition: all 0.3s ease;
+        }
+
+        .btn-cargar:hover {
+            transform: scale(1.05); /* Se agranda al pasar el cursor */
+            box-shadow: 0 4px 12px rgba(0, 68, 136, 0.25) !important;
+        }
+
+        /* EFECTOS DINÁMICOS EN TARJETAS DE NOTICIAS */
+        .card-noticia {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card-noticia:hover {
+            transform: translateY(-8px) scale(1.01); /* La tarjeta se eleva y agranda */
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .badge-categoria { 
+            background-color: var(--accent-red); 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+        }
+
+        .img-container {
+            overflow: hidden;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        .img-noticia { 
+            height: 220px; 
+            width: 100%;
+            object-fit: cover; 
+            transition: transform 0.5s ease;
+        }
+
+        /* Zoom a la foto al pasar el cursor por la tarjeta */
+        .card-noticia:hover .img-noticia {
+            transform: scale(1.06);
+        }
     </style>
 </head>
 <body>
-    <header class="header-banner text-center mb-4">
-        <div class="container">
-            <h1 class="fw-bold display-5 mb-1"><i class="bi bi-journal-richtext me-2"></i>Prensa Técnico-Estudiantil</h1>
-            <p class="lead mb-0 text-white-50">Portal Digital Oficial del Área Taller</p>
+
+    <!-- ENCABEZADO CON LOGO DE LA ESCUELA -->
+    <header class="header-banner mb-4">
+        <div class="container d-flex align-items-center justify-content-center gap-3 flex-wrap">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo Escuela" class="logo-escuela" onerror="this.style.display='none'">
+            <div class="text-center text-md-start">
+                <h1 class="fw-bold display-5 mb-1"><i class="bi bi-journal-richtext me-2"></i>Prensa Técnico-Estudiantil</h1>
+                <p class="lead mb-0 text-white-50">Portal Digital Oficial del Área Taller</p>
+            </div>
         </div>
     </header>
 
     <div class="container mb-5">
+        <!-- BARRA DE NAVEGACIÓN Y BOTÓN CARGAR -->
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
             <ul class="nav nav-pills bg-white p-2 rounded-3 shadow-sm" id="pills-tab" role="tablist">
                 <li class="nav-item">
@@ -36,17 +126,22 @@
                     <button class="nav-link" id="tab-historial" data-bs-toggle="pill" data-bs-target="#content-historial" type="button"><i class="bi bi-clock-history me-1"></i> Historial / Archivo</button>
                 </li>
             </ul>
-            <a href="/admin" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-semibold"><i class="bi bi-plus-circle me-1"></i> Cargar Nota</a>
+            <a href="/admin" class="btn btn-outline-primary btn-cargar btn-sm rounded-pill px-3 fw-semibold shadow-sm"><i class="bi bi-plus-circle me-1"></i> Cargar Nota</a>
         </div>
 
+        <!-- CONTENIDO DE PESTAÑAS -->
         <div class="tab-content" id="pills-tabContent">
+            
+            <!-- PESTAÑA: ÚLTIMAS NOTICIAS -->
             <div class="tab-pane fade show active" id="content-noticias">
                 <div class="row g-4">
                     {% for noticia in noticias %}
                         <div class="col-md-6 col-lg-4">
-                            <div class="card h-100 shadow-sm border-0 rounded-3">
+                            <div class="card card-noticia h-100 shadow-sm border-0 rounded-3">
                                 {% if noticia.imagen %}
-                                    <img src="{{ url_for('static', filename='uploads/' + noticia.imagen) }}" class="card-img-top img-noticia" alt="Imagen noticia">
+                                    <div class="img-container">
+                                        <img src="{{ url_for('static', filename='uploads/' + noticia.imagen) }}" class="card-img-top img-noticia" alt="Imagen noticia">
+                                    </div>
                                 {% endif %}
                                 <div class="card-body d-flex flex-column">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
@@ -62,29 +157,45 @@
                 </div>
             </div>
 
+            <!-- PESTAÑA: NOVEDADES -->
             <div class="tab-pane fade" id="content-novedades">
                 <div class="card border-0 shadow-sm p-4 rounded-3">
                     <h4 class="text-primary fw-bold mb-3"><i class="bi bi-megaphone me-2"></i>Novedades del Taller</h4>
-                    <p class="text-muted">Avisos rápidos y avances de proyectos en marcha.</p>
+                    <p class="text-muted m-0">Avisos rápidos y avances de proyectos en marcha.</p>
                 </div>
             </div>
 
+            <!-- PESTAÑA: HISTORIAL -->
             <div class="tab-pane fade" id="content-historial">
                 <div class="card border-0 shadow-sm p-4 rounded-3">
                     <h4 class="text-primary fw-bold mb-3"><i class="bi bi-archive me-2"></i>Historial de Publicaciones</h4>
-                    <table class="table table-hover align-middle">
-                        <thead><tr><th>Fecha</th><th>Categoría</th><th>Título</th></tr></thead>
-                        <tbody>
-                            {% for noticia in noticias %}
-                            <tr><td>{{ noticia.fecha }}</td><td>{{ noticia.categoria }}</td><td>{{ noticia.titulo }}</td></tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle m-0">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Categoría</th>
+                                    <th>Título</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for noticia in noticias %}
+                                <tr>
+                                    <td>{{ noticia.fecha }}</td>
+                                    <td><span class="badge badge-categoria">{{ noticia.categoria }}</span></td>
+                                    <td class="fw-semibold">{{ noticia.titulo }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
 
+    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

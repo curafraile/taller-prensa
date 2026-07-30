@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medio Digital - Área Taller</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f4f9; }
+        header { background-color: #004488; color: white; padding: 20px; text-align: center; }
+        .contenido { max-width: 800px; margin: 20px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .tag { background-color: #e02020; color: white; padding: 4px 8px; font-weight: bold; font-size: 12px; display: inline-block; margin-bottom: 10px; border-radius: 3px; }
+        .fecha { font-size: 12px; color: #666; float: right; }
+        .articulo { border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
+        .articulo:last-child { border-bottom: none; margin-bottom: 0; }
+        .img-noticia { max-width: 100%; height: auto; border-radius: 6px; margin: 10px 0; display: block; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Prensa Técnico-Estudiantil</h1>
+        <p>Portal Oficial del Área Taller</p>
+    </header>
+
+    <div class="contenido">
+        {% for noticia in noticias %}
+            <div class="articulo">
+                <span class="tag">{{ noticia.categoria }}</span>
+                <span class="fecha">{{ noticia.fecha }}</span>
+                <h2>{{ noticia.titulo }}</h2>
+                
+                {% if noticia.imagen %}
+                    <img src="{{ url_for('static', filename='uploads/' + noticia.imagen) }}" class="img-noticia" alt="Imagen de la noticia">
+                {% endif %}
+                
+                <p>{{ noticia.contenido }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

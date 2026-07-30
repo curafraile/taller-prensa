@@ -11,72 +11,70 @@
     
     <style>
         :root { 
-            --primary-blue: #004488; 
+            --primary-blue: #003366; 
             --accent-red: #e02020; 
         }
         
         body { 
-            background-color: #f8f9fa; 
+            background-color: #f4f6f9; 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
         }
 
-        /* ANIMACIÓN DE ENTRADA Y BRILLO DEL LOGO */
+        /* ANIMACIÓN DE ENTRADA Y LUZ EN EL LOGO */
         @keyframes animarLogo {
             0% {
                 opacity: 0;
-                transform: translateY(-25px) scale(0.8);
-                filter: drop-shadow(0px 0px 0px rgba(0,0,0,0));
-            }
-            60% {
-                opacity: 1;
-                transform: translateY(0) scale(1.1);
-                filter: drop-shadow(0px 0px 15px rgba(255, 255, 255, 0.9)); /* Destello luminoso */
-            }
-            80% {
-                transform: scale(0.95);
+                transform: translateY(-20px) scale(0.85);
             }
             100% {
                 opacity: 1;
-                transform: scale(1) rotate(0deg);
-                filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.4));
+                transform: translateY(0) scale(1);
             }
         }
 
-        /* BANNER Y LOGO INSTITUCIONAL */
+        @keyframes brilloLogo {
+            0%, 100% { filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.4)); }
+            50% { filter: drop-shadow(0px 0px 14px rgba(255, 255, 255, 0.8)); }
+        }
+
+        /* BANNER CON PATRÓN Y SOMBRA MODERNA */
         .header-banner { 
-            background: linear-gradient(135deg, #002b55 0%, var(--primary-blue) 100%); 
+            background: linear-gradient(135deg, #001f3f 0%, #004488 100%); 
             color: white; 
-            padding: 2.5rem 1rem; 
+            padding: 2.8rem 1rem; 
+            border-bottom: 4px solid #002244;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
         }
 
         .logo-escuela {
-            max-height: 80px;
+            max-height: 90px;
             width: auto;
-            transition: transform 0.3s ease, filter 0.3s ease;
-            
-            /* Aplicamos la animación al cargar la página */
-            animation: animarLogo 1.6s ease-out forwards;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px;
+            animation: animarLogo 1.2s ease-out forwards, brilloLogo 4s infinite 2s;
+            transition: transform 0.3s ease;
         }
 
         .logo-escuela:hover {
-            transform: scale(1.1) rotate(-3deg); /* Se agranda e inclina al pasar el mouse */
-            filter: drop-shadow(0px 5px 12px rgba(255, 255, 255, 0.5));
+            transform: scale(1.1) rotate(-2deg);
         }
 
-        /* EFECTOS DINÁMICOS EN BOTONES Y PESTAÑAS */
+        /* BOTONES Y PESTAÑAS */
         .nav-pills .nav-link {
             color: var(--primary-blue);
+            font-weight: 500;
             transition: all 0.25s ease;
         }
 
         .nav-pills .nav-link:hover:not(.active) {
-            background-color: #e9ecef;
+            background-color: #e2e8f0;
             transform: translateY(-2px);
         }
 
         .nav-pills .nav-link.active { 
             background-color: var(--primary-blue); 
-            box-shadow: 0 4px 10px rgba(0, 68, 136, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.3);
         }
 
         .btn-cargar {
@@ -84,19 +82,18 @@
         }
 
         .btn-cargar:hover {
-            transform: scale(1.05);
+            transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 68, 136, 0.25) !important;
         }
 
-        /* EFECTOS DINÁMICOS EN TARJETAS DE NOTICIAS */
+        /* TARJETAS DE NOTICIAS */
         .card-noticia {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
         }
 
         .card-noticia:hover {
-            transform: translateY(-8px) scale(1.01);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15) !important;
+            transform: translateY(-6px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1) !important;
         }
 
         .badge-categoria { 
@@ -119,13 +116,13 @@
         }
 
         .card-noticia:hover .img-noticia {
-            transform: scale(1.06);
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
 
-    <!-- ENCABEZADO CON LOGO DE LA ESCUELA -->
+    <!-- ENCABEZADO CON LOGO INSTITUCIONAL -->
     <header class="header-banner mb-4">
         <div class="container d-flex align-items-center justify-content-center gap-3 flex-wrap">
             <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo Escuela" class="logo-escuela" onerror="this.style.display='none'">
@@ -139,7 +136,7 @@
     <div class="container mb-5">
         <!-- BARRA DE NAVEGACIÓN Y BOTÓN CARGAR -->
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-            <ul class="nav nav-pills bg-white p-2 rounded-3 shadow-sm" id="pills-tab" role="tablist">
+            <ul class="nav nav-pills bg-white p-2 rounded-3 shadow-sm border" id="pills-tab" role="tablist">
                 <li class="nav-item">
                     <button class="nav-link active" id="tab-noticias" data-bs-toggle="pill" data-bs-target="#content-noticias" type="button"><i class="bi bi-newspaper me-1"></i> Últimas Noticias</button>
                 </li>
@@ -159,25 +156,37 @@
             <!-- PESTAÑA: ÚLTIMAS NOTICIAS -->
             <div class="tab-pane fade show active" id="content-noticias">
                 <div class="row g-4">
-                    {% for noticia in noticias %}
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card card-noticia h-100 shadow-sm border-0 rounded-3">
-                                {% if noticia.imagen %}
-                                    <div class="img-container">
-                                        <img src="{{ url_for('static', filename='uploads/' + noticia.imagen) }}" class="card-img-top img-noticia" alt="Imagen noticia">
+                    {% if noticias %}
+                        {% for noticia in noticias %}
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card card-noticia h-100 shadow-sm border-0 rounded-3">
+                                    {% if noticia.imagen %}
+                                        <div class="img-container">
+                                            <img src="{{ url_for('static', filename='uploads/' + noticia.imagen) }}" class="card-img-top img-noticia" alt="Imagen noticia">
+                                        </div>
+                                    {% endif %}
+                                    <div class="card-body d-flex flex-column">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span class="badge badge-categoria px-2 py-1">{{ noticia.categoria }}</span>
+                                            <small class="text-muted">{{ noticia.fecha }}</small>
+                                        </div>
+                                        <h5 class="card-title fw-bold text-dark mb-3">{{ noticia.titulo }}</h5>
+                                        <p class="card-text text-secondary flex-grow-1">{{ noticia.contenido }}</p>
                                     </div>
-                                {% endif %}
-                                <div class="card-body d-flex flex-column">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="badge badge-categoria px-2 py-1">{{ noticia.categoria }}</span>
-                                        <small class="text-muted">{{ noticia.fecha }}</small>
-                                    </div>
-                                    <h5 class="card-title fw-bold text-dark mb-3">{{ noticia.titulo }}</h5>
-                                    <p class="card-text text-secondary flex-grow-1">{{ noticia.contenido }}</p>
                                 </div>
                             </div>
+                        {% endfor %}
+                    {% else %}
+                        <!-- ESTADO VACÍO VISTOSO -->
+                        <div class="col-12 text-center py-5">
+                            <div class="p-5 bg-white rounded-3 shadow-sm border">
+                                <i class="bi bi-card-heading text-primary display-3 mb-3 d-block"></i>
+                                <h4 class="fw-bold text-dark">Aún no hay publicaciones cargadas</h4>
+                                <p class="text-muted">Las noticias que suban los estudiantes o profesores aparecerán automáticas acá.</p>
+                                <a href="/admin" class="btn btn-primary rounded-pill px-4 mt-2 fw-semibold"><i class="bi bi-plus-circle me-1"></i> Crear primera nota</a>
+                            </div>
                         </div>
-                    {% endfor %}
+                    {% endif %}
                 </div>
             </div>
 
